@@ -119,6 +119,14 @@ client.connect((err) => {
       res.send(doc);
     });
   });
+
+  app.patch("/statusUpdate/:id", (req, res) => {
+    const stat = req.query.status;
+    const id = req.params.id;
+    bookingsCollection.updateOne({ _id: ObjectID(id) }, { $set: { status: stat } }).then((result) => {
+      res.send(result.modifiedCount > 0);
+    });
+  });
 });
 
 app.listen(port, () => {
