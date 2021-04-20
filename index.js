@@ -106,6 +106,19 @@ client.connect((err) => {
       res.send(result);
     });
   });
+
+  app.get("/bookings", (req, res) => {
+    bookingsCollection.find({}).toArray((err, doc) => {
+      res.send(doc);
+    });
+  });
+
+  app.post("/booking-by-user", (req, res) => {
+    const email = req.body.email;
+    bookingsCollection.find({ email: email }).toArray((err, doc) => {
+      res.send(doc);
+    });
+  });
 });
 
 app.listen(port, () => {
