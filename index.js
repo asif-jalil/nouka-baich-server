@@ -26,6 +26,7 @@ client.connect((err) => {
   const boatsCollection = client.db("noukaBaich").collection("boats");
   const reviewsCollection = client.db("noukaBaich").collection("reviews");
   const adminsCollection = client.db("noukaBaich").collection("admins");
+  const bookingsCollection = client.db("noukaBaich").collection("bookings");
   console.log(err);
 
   app.post("/check-admin", (req, res) => {
@@ -53,13 +54,20 @@ client.connect((err) => {
     };
     const boatInfo = req.body;
 
-    boatsCollection.insertOne({ boatInfo, boatImg }).then((result) => {
+    boatsCollection.insertOne({ ...boatInfo, boatImg }).then((result) => {
       res.send(result.insertedCount > 0);
     });
   });
 
   app.get("/boats", (req, res) => {
     boatsCollection.find({}).toArray((err, doc) => {
+      res.send(doc);
+    });
+  });
+
+  app.get("/boatByName/:boat", (req, res) => {
+    const boat = req.params.boat;
+    boatsCollection.find({ boatName: boat }).toArray((err, doc) => {
       res.send(doc);
     });
   });
@@ -88,6 +96,14 @@ client.connect((err) => {
     const email = req.body.email;
     reviewsCollection.find({ email: email }).toArray((err, doc) => {
       res.send(doc.length > 0);
+    });
+  });
+
+  app.post("/add-booking", (req, res) => {
+    const booking = req.body;
+    bookingsCollection.insertOne(booking).then((result) => {
+      // res.send(result.insertedCount > 0);
+      res.send(result);
     });
   });
 });
