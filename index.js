@@ -22,6 +22,7 @@ app.get("/", (req, res) => {
   res.send("Hello World! Nouka Baich Is Running");
 });
 
+// client api
 client.connect((err) => {
   const boatsCollection = client.db("noukaBaich").collection("boats");
   const reviewsCollection = client.db("noukaBaich").collection("reviews");
