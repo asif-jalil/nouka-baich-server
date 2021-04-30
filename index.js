@@ -19,7 +19,7 @@ app.use(cors());
 app.use(fileUpload());
 
 app.get("/", (req, res) => {
-  res.send("Hello World! Nouka Baich Is Running");
+  res.send("Nouka Baich Is Running");
 });
 
 // client api
